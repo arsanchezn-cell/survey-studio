@@ -215,7 +215,7 @@ export default function NuevoCursoPage() {
             <h2 className="font-medium text-gray-900">Datos del participante</h2>
             <button
               onClick={agregarCampoCustom}
-              className="flex items-center gap-1.5 text-xs hover:opacity-80" className="font-medium transition-colors" style={{ color: 'var(--color-secundario)' }}
+              className="flex items-center gap-1.5 text-xs font-medium transition-colors" style={{ color: 'var(--color-secundario)' }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <line x1="12" y1="5" x2="12" y2="19"/>
