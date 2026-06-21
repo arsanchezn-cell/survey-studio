@@ -154,7 +154,7 @@ export default function SkipLogicModal({ pregunta, todasPreguntas, onClose }: Pr
                       className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="">Selecciona valor...</option>
-                      {valoresSugeridos.map(v => (
+                      {valoresSugeridos.map((v: string) => (
                         <option key={v} value={v}>{v}</option>
                       ))}
                     </select>
