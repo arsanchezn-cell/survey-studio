@@ -3,6 +3,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Tema Survey Studio — valores por defecto */
+  --color-primario: #1e3a5f;
+  --color-secundario: #3b82f6;
+  --color-acento: #93c5fd;
+
+  /* Derivados automáticos */
+  --color-primario-dark: color-mix(in srgb, var(--color-primario) 80%, black);
+  --color-secundario-light: color-mix(in srgb, var(--color-secundario) 15%, white);
+  --color-acento-light: color-mix(in srgb, var(--color-acento) 20%, white);
+
+  /* UI tokens */
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  --radius-card: 1rem;
 }
 
 @theme inline {
@@ -12,15 +27,58 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Sidebar hover */
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Botón primario temático */
+.btn-primary {
+  background: var(--color-secundario);
+  color: white;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { opacity: 0.88; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Tarjeta temática */
+.card-tema {
+  background: white;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card-tema:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+/* Badge de acento */
+.badge-acento {
+  background: var(--color-acento-light);
+  color: var(--color-primario);
+  border-radius: 9999px;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Borde acento en inputs al hacer focus */
+.input-tema:focus {
+  outline: none;
+  ring: 2px solid var(--color-secundario);
+  border-color: var(--color-secundario);
 }
