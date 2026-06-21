@@ -47,9 +47,21 @@ function BloqueContenido({ bloque, respuestas, setRespuesta, highlight }: {
   if (bloque.type === 'welcome') {
     return (
       <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center">
-        <div className="text-4xl mb-4">👋</div>
+        {config.icono ? (
+          <div className="text-4xl mb-4">{config.icono}</div>
+        ) : (
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: 'var(--color-secundario)15' }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-secundario)" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+        )}
         <h2 className="text-xl font-semibold text-gray-900 mb-3">{config.titulo || bloque.label}</h2>
-        {config.contenido && <p className="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto">{config.contenido}</p>}
+        {(config.contenido_html || config.contenido) && (
+          config.contenido_html
+            ? <div className="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto prose prose-sm" dangerouslySetInnerHTML={{ __html: config.contenido_html }} />
+            : <p className="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto">{config.contenido}</p>
+        )}
       </div>
     )
   }
@@ -57,9 +69,21 @@ function BloqueContenido({ bloque, respuestas, setRespuesta, highlight }: {
   if (bloque.type === 'farewell') {
     return (
       <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center">
-        <div className="text-4xl mb-4">🎉</div>
+        {config.icono ? (
+          <div className="text-4xl mb-4">{config.icono}</div>
+        ) : (
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: '#f0fdf4' }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+        )}
         <h2 className="text-xl font-semibold text-gray-900 mb-3">{config.titulo || bloque.label}</h2>
-        {config.contenido && <p className="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto">{config.contenido}</p>}
+        {(config.contenido_html || config.contenido) && (
+          config.contenido_html
+            ? <div className="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto prose prose-sm" dangerouslySetInnerHTML={{ __html: config.contenido_html }} />
+            : <p className="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto">{config.contenido}</p>
+        )}
       </div>
     )
   }
@@ -81,7 +105,11 @@ function BloqueContenido({ bloque, respuestas, setRespuesta, highlight }: {
     return (
       <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6">
         <p className="text-sm font-medium text-blue-900 mb-1">{config.titulo || bloque.label}</p>
-        {config.contenido && <p className="text-sm text-blue-700 leading-relaxed">{config.contenido}</p>}
+        {(config.contenido_html || config.contenido) && (
+          config.contenido_html
+            ? <div className="text-sm text-blue-700 leading-relaxed prose prose-sm" dangerouslySetInnerHTML={{ __html: config.contenido_html }} />
+            : <p className="text-sm text-blue-700 leading-relaxed">{config.contenido}</p>
+        )}
       </div>
     )
   }
@@ -90,15 +118,18 @@ function BloqueContenido({ bloque, respuestas, setRespuesta, highlight }: {
     return (
       <div className={`bg-white rounded-2xl border-2 p-6 transition-colors ${highlight ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
         <p className="text-sm font-medium text-gray-900 mb-2">{config.titulo || bloque.label}</p>
-        {config.contenido && (
+        {(config.contenido_html || config.contenido) && (
           <div className="bg-gray-50 rounded-xl p-4 mb-4 max-h-40 overflow-y-auto">
-            <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-wrap">{config.contenido}</p>
+            {config.contenido_html
+              ? <div className="text-xs text-gray-600 leading-relaxed prose prose-sm" dangerouslySetInnerHTML={{ __html: config.contenido_html }} />
+              : <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-wrap">{config.contenido}</p>
+            }
           </div>
         )}
         <label className="flex items-start gap-3 cursor-pointer">
-          <input type="checkbox" checked={respuestas[bloque.id] === true} onChange={e => setRespuesta(bloque.id, e.target.checked)} className="mt-0.5 accent-green-600 w-4 h-4 shrink-0" />
+          <input type="checkbox" checked={respuestas[bloque.id] === true} onChange={e => setRespuesta(bloque.id, e.target.checked)} className="mt-0.5 accent-[var(--color-secundario)] w-4 h-4 shrink-0" />
           <span className="text-sm text-gray-700">
-            {config.texto_checkbox || 'Acepto los términos y condiciones'}
+            {config.texto_checkbox || 'Acepto los terminos y condiciones'}
             <span className="text-red-400 ml-1">*</span>
           </span>
         </label>
@@ -128,6 +159,7 @@ export default function EncuestaPublicaPage({
   const [error, setError] = useState('')
   const [distribucion, setDistribucion] = useState<any>(null)
   const [camposPendientes, setCamposPendientes] = useState<Set<string>>(new Set())
+  const [paginaActual, setPaginaActual] = useState(0)
   const refsElementos = useRef<Record<string, HTMLDivElement | null>>({})
 
   useEffect(() => {
@@ -192,6 +224,72 @@ export default function EncuestaPublicaPage({
     })
     return preguntas.filter(p => !ocultas.has(p.id))
   }, [preguntas, reglas, respuestas])
+
+  // Paginacion: dividir por bloques tipo 'section'
+  const paginas = useMemo(() => {
+    const tieneSecciones = elementosVisibles.some(el => el.type === 'section')
+    if (!tieneSecciones) return [elementosVisibles]
+
+    const pags: typeof elementosVisibles[] = []
+    let grupo: typeof elementosVisibles = []
+
+    elementosVisibles.forEach(el => {
+      if (el.type === 'section' && grupo.length > 0) {
+        pags.push(grupo)
+        grupo = [el]
+      } else {
+        grupo.push(el)
+      }
+    })
+    if (grupo.length > 0) pags.push(grupo)
+    return pags
+  }, [elementosVisibles])
+
+  const totalPaginas = paginas.length
+  const elementosPagina = paginas[paginaActual] || []
+  const esUltimaPagina = paginaActual === totalPaginas - 1
+
+  // Reset a pagina 0 cuando cambia la estructura de paginas (carga inicial)
+  useEffect(() => {
+    setPaginaActual(0)
+  }, [totalPaginas])
+
+  function avanzarPagina() {
+    const obligatoriosPagina = elementosPagina.filter(p => p.required)
+    const sinResponder = obligatoriosPagina.filter(p => {
+      if (p.type === 'policy') return respuestas[p.id] !== true
+      if (p.type === 'matrix' || p.type === 'matrix_multiple') {
+        const filas = p.config?.filas || []
+        return filas.some((_: any, fi: number) => {
+          const r = respuestas[`${p.id}_${fi}`]
+          return r === undefined || r === null || (Array.isArray(r) && r.length === 0)
+        })
+      }
+      const r = respuestas[p.id]
+      return r === undefined || r === '' || r === null
+    })
+
+    if (sinResponder.length > 0) {
+      const pendientesIds = new Set(sinResponder.map(p => p.id))
+      setCamposPendientes(pendientesIds)
+      setError(`Por favor completa todos los campos obligatorios (${sinResponder.length} pendientes)`)
+      const ref = refsElementos.current[sinResponder[0].id]
+      if (ref) ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      return
+    }
+
+    setCamposPendientes(new Set())
+    setError('')
+    setPaginaActual(prev => prev + 1)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function retrocederPagina() {
+    setError('')
+    setCamposPendientes(new Set())
+    setPaginaActual(prev => prev - 1)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   function setRespuesta(questionId: string, value: any) {
     setRespuestas(prev => ({ ...prev, [questionId]: value }))
@@ -298,10 +396,14 @@ export default function EncuestaPublicaPage({
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-10 max-w-md w-full text-center">
-          <div className="text-5xl mb-4">✓</div>
+          <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Gracias por tu respuesta</h2>
           <p className="text-gray-500 text-sm">Tus respuestas han sido registradas correctamente.</p>
-          <p className="text-xs text-gray-400 mt-4">Puedes cerrar esta pestaña con seguridad</p>
+          <p className="text-xs text-gray-400 mt-4">Puedes cerrar esta pestana con seguridad</p>
         </div>
       </div>
     )
@@ -317,8 +419,24 @@ export default function EncuestaPublicaPage({
           {encuesta.description && <p className="text-gray-500 text-sm mt-2">{encuesta.description}</p>}
         </div>
 
+        {/* Barra de progreso (solo si hay multiples paginas) */}
+        {totalPaginas > 1 && (
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-gray-400">Pagina {paginaActual + 1} de {totalPaginas}</span>
+              <span className="text-xs text-gray-400">{Math.round(((paginaActual + 1) / totalPaginas) * 100)}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-1.5">
+              <div
+                className="h-1.5 rounded-full transition-all duration-300"
+                style={{ width: `${((paginaActual + 1) / totalPaginas) * 100}%`, background: 'var(--color-secundario)' }}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="space-y-4">
-          {elementosVisibles.map((elemento) => {
+          {elementosPagina.map((elemento) => {
             if (TIPOS_BLOQUE.includes(elemento.type)) {
               return (
                 <div key={elemento.id} ref={el => { refsElementos.current[elemento.id] = el }}>
@@ -348,7 +466,7 @@ export default function EncuestaPublicaPage({
                     <div className="space-y-2">
                       {elemento.config?.options?.map((op: any, i: number) => (
                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                          <input type="radio" name={elemento.id} value={op.label} checked={respuestas[elemento.id] === op.label} onChange={() => setRespuesta(elemento.id, op.label)} className="accent-green-600" />
+                          <input type="radio" name={elemento.id} value={op.label} checked={respuestas[elemento.id] === op.label} onChange={() => setRespuesta(elemento.id, op.label)} className="accent-[var(--color-secundario)]" />
                           <span className="text-sm text-gray-700 group-hover:text-gray-900">{op.label}</span>
                         </label>
                       ))}
@@ -361,7 +479,7 @@ export default function EncuestaPublicaPage({
                         const sel: string[] = Array.isArray(respuestas[elemento.id]) ? respuestas[elemento.id] : []
                         return (
                           <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" checked={sel.includes(op.label)} onChange={(e) => { if (e.target.checked) setRespuesta(elemento.id, [...sel, op.label]); else setRespuesta(elemento.id, sel.filter((s: string) => s !== op.label)) }} className="accent-green-600" />
+                            <input type="checkbox" checked={sel.includes(op.label)} onChange={(e) => { if (e.target.checked) setRespuesta(elemento.id, [...sel, op.label]); else setRespuesta(elemento.id, sel.filter((s: string) => s !== op.label)) }} className="accent-[var(--color-secundario)]" />
                             <span className="text-sm text-gray-700 group-hover:text-gray-900">{op.label}</span>
                           </label>
                         )
@@ -373,7 +491,7 @@ export default function EncuestaPublicaPage({
                     <div className="space-y-2">
                       {elemento.config?.options?.map((op: any, i: number) => (
                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                          <input type="radio" name={elemento.id} value={op.label} checked={respuestas[elemento.id] === op.label} onChange={() => setRespuesta(elemento.id, op.label)} className="accent-green-600" />
+                          <input type="radio" name={elemento.id} value={op.label} checked={respuestas[elemento.id] === op.label} onChange={() => setRespuesta(elemento.id, op.label)} className="accent-[var(--color-secundario)]" />
                           <span className="text-sm text-gray-700 group-hover:text-gray-900">{op.label}</span>
                         </label>
                       ))}
@@ -391,25 +509,25 @@ export default function EncuestaPublicaPage({
                   {elemento.type === 'star_rating' && (
                     <div className="flex gap-1">
                       {Array.from({ length: 5 }, (_, i) => (
-                        <button key={i} onClick={() => setRespuesta(elemento.id, i + 1)} className={`text-2xl transition-colors ${respuestas[elemento.id] >= i + 1 ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-300'}`}>★</button>
+                        <button key={i} onClick={() => setRespuesta(elemento.id, i + 1)} className={`text-2xl transition-colors ${respuestas[elemento.id] >= i + 1 ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-300'}`}>&#9733;</button>
                       ))}
                     </div>
                   )}
 
                   {elemento.type === 'text' && (
-                    <input type="text" value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} placeholder="Tu respuesta..." className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 ${pendiente ? 'border-red-300' : 'border-gray-200'}`} />
+                    <input type="text" value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} placeholder="Tu respuesta..." className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-secundario)] ${pendiente ? 'border-red-300' : 'border-gray-200'}`} />
                   )}
 
                   {elemento.type === 'long_text' && (
-                    <textarea value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} placeholder="Tu respuesta..." rows={4} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none ${pendiente ? 'border-red-300' : 'border-gray-200'}`} />
+                    <textarea value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} placeholder="Tu respuesta..." rows={4} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-secundario)] resize-none ${pendiente ? 'border-red-300' : 'border-gray-200'}`} />
                   )}
 
                   {elemento.type === 'date' && (
-                    <input type="date" value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} className={`border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 ${pendiente ? 'border-red-300' : 'border-gray-200'}`} />
+                    <input type="date" value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} className={`border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-secundario)] ${pendiente ? 'border-red-300' : 'border-gray-200'}`} />
                   )}
 
                   {elemento.type === 'dropdown' && (
-                    <select value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white ${pendiente ? 'border-red-300' : 'border-gray-200'}`}>
+                    <select value={respuestas[elemento.id] || ''} onChange={(e) => setRespuesta(elemento.id, e.target.value)} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-secundario)] bg-white ${pendiente ? 'border-red-300' : 'border-gray-200'}`}>
                       <option value="">Selecciona una opcion...</option>
                       {elemento.config?.options?.map((op: any, i: number) => (
                         <option key={i} value={op.label}>{op.label}</option>
@@ -419,8 +537,8 @@ export default function EncuestaPublicaPage({
 
                   {elemento.type === 'thumbs' && (
                     <div className="flex items-center gap-4">
-                      <button onClick={() => setRespuesta(elemento.id, 'up')} className={`text-4xl transition-transform hover:scale-110 ${respuestas[elemento.id] === 'up' ? 'opacity-100' : 'opacity-40'}`}>👍</button>
-                      <button onClick={() => setRespuesta(elemento.id, 'down')} className={`text-4xl transition-transform hover:scale-110 ${respuestas[elemento.id] === 'down' ? 'opacity-100' : 'opacity-40'}`}>👎</button>
+                      <button onClick={() => setRespuesta(elemento.id, 'up')} className={`text-4xl transition-transform hover:scale-110 ${respuestas[elemento.id] === 'up' ? 'opacity-100' : 'opacity-40'}`}>&#128077;</button>
+                      <button onClick={() => setRespuesta(elemento.id, 'down')} className={`text-4xl transition-transform hover:scale-110 ${respuestas[elemento.id] === 'down' ? 'opacity-100' : 'opacity-40'}`}>&#128078;</button>
                     </div>
                   )}
 
@@ -442,9 +560,9 @@ export default function EncuestaPublicaPage({
                               {elemento.config?.columnas?.map((col: string, ci: number) => (
                                 <td key={ci} className="text-center py-3 px-2">
                                   {elemento.config?.multiple ? (
-                                    <input type="checkbox" checked={Array.isArray(respuestas[`${elemento.id}_${fi}`]) && respuestas[`${elemento.id}_${fi}`].includes(col)} onChange={(e) => { const key = `${elemento.id}_${fi}`; const cur = Array.isArray(respuestas[key]) ? respuestas[key] : []; if (e.target.checked) setRespuesta(key, [...cur, col]); else setRespuesta(key, cur.filter((v: string) => v !== col)) }} className="accent-green-600" />
+                                    <input type="checkbox" checked={Array.isArray(respuestas[`${elemento.id}_${fi}`]) && respuestas[`${elemento.id}_${fi}`].includes(col)} onChange={(e) => { const key = `${elemento.id}_${fi}`; const cur = Array.isArray(respuestas[key]) ? respuestas[key] : []; if (e.target.checked) setRespuesta(key, [...cur, col]); else setRespuesta(key, cur.filter((v: string) => v !== col)) }} className="accent-[var(--color-secundario)]" />
                                   ) : (
-                                    <input type="radio" name={`${elemento.id}_${fi}`} value={col} checked={respuestas[`${elemento.id}_${fi}`] === col} onChange={() => setRespuesta(`${elemento.id}_${fi}`, col)} className="accent-green-600" />
+                                    <input type="radio" name={`${elemento.id}_${fi}`} value={col} checked={respuestas[`${elemento.id}_${fi}`] === col} onChange={() => setRespuesta(`${elemento.id}_${fi}`, col)} className="accent-[var(--color-secundario)]" />
                                   )}
                                 </td>
                               ))}
@@ -457,7 +575,7 @@ export default function EncuestaPublicaPage({
 
                   {elemento.type === 'scale' && (
                     <div className="space-y-2">
-                      <input type="range" min={1} max={10} value={respuestas[elemento.id] || 5} onChange={(e) => setRespuesta(elemento.id, parseInt(e.target.value))} className="w-full accent-green-600" />
+                      <input type="range" min={1} max={10} value={respuestas[elemento.id] || 5} onChange={(e) => setRespuesta(elemento.id, parseInt(e.target.value))} className="w-full accent-[var(--color-secundario)]" />
                       <div className="flex justify-between text-xs text-gray-400">
                         <span>1</span>
                         <span className="font-medium text-green-600">{respuestas[elemento.id] || 5}</span>
@@ -477,10 +595,38 @@ export default function EncuestaPublicaPage({
           </div>
         )}
 
-        <div className="mt-6 flex justify-end">
-          <button onClick={enviar} disabled={enviando} className="bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white px-8 py-3 rounded-xl text-sm font-medium transition-colors">
-            {enviando ? 'Enviando...' : 'Enviar respuestas'}
-          </button>
+        {/* Botones de navegacion */}
+        <div className="mt-6 flex items-center justify-between">
+          <div>
+            {paginaActual > 0 && (
+              <button
+                onClick={retrocederPagina}
+                className="text-sm text-gray-600 px-6 py-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:text-gray-800 transition-colors"
+              >
+                &larr; Anterior
+              </button>
+            )}
+          </div>
+          <div>
+            {esUltimaPagina ? (
+              <button
+                onClick={enviar}
+                disabled={enviando}
+                className="disabled:opacity-50 text-white px-8 py-3 rounded-xl text-sm font-medium transition-colors hover:opacity-90"
+                style={{ background: 'var(--color-secundario)' }}
+              >
+                {enviando ? 'Enviando...' : 'Enviar respuestas'}
+              </button>
+            ) : (
+              <button
+                onClick={avanzarPagina}
+                className="text-white px-8 py-3 rounded-xl text-sm font-medium transition-colors hover:opacity-90"
+                style={{ background: 'var(--color-secundario)' }}
+              >
+                Siguiente &rarr;
+              </button>
+            )}
+          </div>
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-6">Powered by Survey Studio</p>

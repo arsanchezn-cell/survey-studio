@@ -91,11 +91,26 @@ export default async function DashboardLayout({
           --color-primario: ${colorPrimario};
           --color-secundario: ${colorSecundario};
           --color-acento: ${colorAcento};
+          --color-bg: #f1f5f9;
         }
+        .btn-tema {
+          background: ${colorSecundario} !important;
+          color: white;
+        }
+        .btn-tema:hover { opacity: 0.88; }
+        .card-metrica-1 { background: linear-gradient(145deg, #ffffff, #eff6ff); border-color: #bfdbfe; }
+        .card-metrica-2 { background: linear-gradient(145deg, #ffffff, #f5f3ff); border-color: #ddd6fe; }
+        .card-metrica-3 { background: linear-gradient(145deg, #ffffff, #ecfeff); border-color: #a5f3fc; }
+        .card-metrica-4 { background: linear-gradient(145deg, #ffffff, #ecfdf5); border-color: #6ee7b7; }
+        .card-metrica-5 { background: linear-gradient(145deg, #ffffff, #fffbeb); border-color: #fcd34d; }
+        .card-metrica-6 { background: linear-gradient(145deg, #ffffff, #fff7ed); border-color: #fdba74; }
+        .input-focus:focus { border-color: ${colorSecundario} !important; box-shadow: 0 0 0 3px ${colorSecundario}33 !important; }
+        .selected-border { border-color: ${colorSecundario} !important; background: ${colorSecundario}15 !important; }
+        .nav-active { background: ${colorSecundario}30 !important; }
       `}</style>
 
       {/* Sidebar */}
-      <aside className="w-60 flex flex-col fixed h-full z-30" style={{ background: `linear-gradient(180deg, ${colorPrimario} 0%, ${colorPrimario}cc 100%)` }}>
+      <aside className="w-60 flex flex-col fixed h-full z-30" style={{ background: colorPrimario }}>
 
         {/* Logo */}
         <div className="px-6 py-6">
@@ -165,7 +180,7 @@ export default async function DashboardLayout({
         </div>
       </aside>
 
-      <div className="flex-1 ml-60" style={{ background: `color-mix(in srgb, ${colorPrimario} 5%, #f8fafc)` }}>
+      <div className="flex-1 ml-60" style={{ background: '#f1f5f9' }}>
         {children}
       </div>
     </div>

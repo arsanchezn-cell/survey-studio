@@ -6,12 +6,18 @@ import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
 
 const PALETAS = [
-  { nombre: 'Azul océano', primario: '#1e3a5f', secundario: '#3b82f6', acento: '#93c5fd' },
-  { nombre: 'Verde esmeralda', primario: '#064e3b', secundario: '#059669', acento: '#6ee7b7' },
-  { nombre: 'Púrpura real', primario: '#3b0764', secundario: '#7c3aed', acento: '#c4b5fd' },
-  { nombre: 'Rojo carmesí', primario: '#7f1d1d', secundario: '#dc2626', acento: '#fca5a5' },
-  { nombre: 'Naranja ámbar', primario: '#78350f', secundario: '#d97706', acento: '#fcd34d' },
-  { nombre: 'Gris pizarra', primario: '#1e293b', secundario: '#475569', acento: '#94a3b8' },
+  { nombre: 'Azul corporativo', primario: '#1d4ed8', secundario: '#3b82f6', acento: '#93c5fd' },
+  { nombre: 'Azul marino', primario: '#1e3a5f', secundario: '#2563eb', acento: '#bfdbfe' },
+  { nombre: 'Cian profesional', primario: '#0e7490', secundario: '#06b6d4', acento: '#67e8f9' },
+  { nombre: 'Verde esmeralda', primario: '#065f46', secundario: '#10b981', acento: '#6ee7b7' },
+  { nombre: 'Verde bosque', primario: '#14532d', secundario: '#16a34a', acento: '#86efac' },
+  { nombre: 'Púrpura real', primario: '#4c1d95', secundario: '#7c3aed', acento: '#c4b5fd' },
+  { nombre: 'Violeta', primario: '#5b21b6', secundario: '#8b5cf6', acento: '#ddd6fe' },
+  { nombre: 'Rosa ejecutivo', primario: '#9d174d', secundario: '#ec4899', acento: '#f9a8d4' },
+  { nombre: 'Rojo intenso', primario: '#991b1b', secundario: '#ef4444', acento: '#fca5a5' },
+  { nombre: 'Naranja vibrante', primario: '#c2410c', secundario: '#f97316', acento: '#fdba74' },
+  { nombre: 'Dorado premium', primario: '#92400e', secundario: '#f59e0b', acento: '#fde68a' },
+  { nombre: 'Gris titanio', primario: '#1e293b', secundario: '#64748b', acento: '#cbd5e1' },
 ]
 
 export default function ConfiguracionPage() {
@@ -163,7 +169,7 @@ export default function ConfiguracionPage() {
           <p className="text-sm text-gray-400">Elige una paleta predefinida o personaliza los colores manualmente</p>
 
           {/* Paletas predefinidas */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-4 gap-3">
             {PALETAS.map(paleta => (
               <button
                 key={paleta.nombre}
