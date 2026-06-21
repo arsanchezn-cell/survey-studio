@@ -324,8 +324,8 @@ export default function EncuestaEditorPage({ params }: { params: Promise<{ id: s
                 </div>
                 {preguntas.length > 0 && (
                   <div className="flex items-center gap-2">
-                    <button onClick={() => setModalBloqueAbierto(true)} className="text-sm hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>+ Bloque</button>
-                    <button onClick={() => setModalAbierto(true)} className="text-sm hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>+ Pregunta</button>
+                    <button onClick={() => setModalBloqueAbierto(true)} className="text-sm hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>+ Bloque</button>
+                    <button onClick={() => setModalAbierto(true)} className="text-sm hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>+ Pregunta</button>
                   </div>
                 )}
               </div>
@@ -334,9 +334,9 @@ export default function EncuestaEditorPage({ params }: { params: Promise<{ id: s
                 <div className="text-center py-8 border-2 border-dashed border-gray-200 rounded-xl space-y-3">
                   <p className="text-gray-400 text-sm">No hay contenido aún</p>
                   <div className="flex items-center justify-center gap-3">
-                    <button onClick={() => setModalBloqueAbierto(true)} className="hover:opacity-80" className="text-sm font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar bloque</button>
+                    <button onClick={() => setModalBloqueAbierto(true)} className="hover:opacity-80 text-sm font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar bloque</button>
                     <span className="text-gray-300">|</span>
-                    <button onClick={() => setModalAbierto(true)} className="hover:opacity-80" className="text-sm font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar pregunta</button>
+                    <button onClick={() => setModalAbierto(true)} className="hover:opacity-80 text-sm font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar pregunta</button>
                   </div>
                 </div>
               ) : (
@@ -398,7 +398,7 @@ export default function EncuestaEditorPage({ params }: { params: Promise<{ id: s
             <p className="text-sm text-gray-500 mb-4">Comparte este link con tus participantes</p>
             <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
               <p className="text-sm text-gray-700 flex-1 truncate">{linkDistribucion}</p>
-              <button onClick={() => { navigator.clipboard.writeText(linkDistribucion); alert('Link copiado') }} className="hover:opacity-80" className="text-sm font-medium shrink-0" style={{ color: 'var(--color-secundario)' }}>Copiar</button>
+              <button onClick={() => { navigator.clipboard.writeText(linkDistribucion); alert('Link copiado') }} className="hover:opacity-80 text-sm font-medium shrink-0" style={{ color: 'var(--color-secundario)' }}>Copiar</button>
             </div>
             <button onClick={() => setMostrarLinkModal(false)} className="mt-4 w-full text-sm text-gray-500 hover:text-gray-700">Cerrar</button>
           </div>

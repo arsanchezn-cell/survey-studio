@@ -271,7 +271,7 @@ export default function NuevoCursoPage() {
               <h2 className="font-medium text-gray-900">Grupos</h2>
               <p className="text-sm text-gray-400 mt-0.5">Configura los horarios y cupos disponibles</p>
             </div>
-            <button onClick={agregarGrupo} className="text-sm hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar grupo</button>
+            <button onClick={agregarGrupo} className="text-sm hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar grupo</button>
           </div>
           <div className="space-y-4">
             {grupos.map((grupo, i) => (

@@ -184,16 +184,12 @@ export default async function DashboardPage() {
 
       {/* Métricas — 3 columnas x 2 filas */}
       <div className="px-8 grid grid-cols-3 gap-4 mb-8">
-        {metricas.map(m => (
+        {metricas.map((m, idx) => (
           <Link
             key={m.label}
             href={m.href}
-            className="block rounded-2xl p-5 border hover:shadow-lg transition-all group"
-            style={{
-              background: `linear-gradient(145deg, #ffffff 0%, ${m.bg} 120%)`,
-              borderColor: m.bg,
-              boxShadow: `0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06)`,
-            }}
+            className={`block rounded-2xl p-5 border hover:shadow-lg transition-all group card-metrica-${idx + 1}`}
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06)' }}
           >
             <div className="flex items-start justify-between mb-4">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110" style={{ background: m.bg, color: m.color }}>
@@ -212,7 +208,7 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-3 gap-4">
 
           {/* Encuestas */}
-          <div className="rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-all" style={{ background: 'linear-gradient(160deg, white 70%, rgba(var(--color-acento-rgb, 147,197,253), 0.08) 100%)', boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04)' }}>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-all" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04)' }}>
             <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#eff6ff' }}>
@@ -223,7 +219,7 @@ export default async function DashboardPage() {
                 </div>
                 <span className="text-sm font-semibold text-slate-700">Encuestas</span>
               </div>
-              <Link href="/dashboard/encuestas" className="text-xs hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>Ver todas →</Link>
+              <Link href="/dashboard/encuestas" className="text-xs hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>Ver todas →</Link>
             </div>
             <div className="p-4 space-y-2">
               <Link href="/dashboard/encuestas/nueva" className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group">
@@ -248,7 +244,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Cursos */}
-          <div className="rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-all" style={{ background: 'linear-gradient(160deg, white 70%, rgba(var(--color-acento-rgb, 147,197,253), 0.08) 100%)', boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04)' }}>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-all" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04)' }}>
             <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#ecfeff' }}>
@@ -258,7 +254,7 @@ export default async function DashboardPage() {
                 </div>
                 <span className="text-sm font-semibold text-slate-700">Cursos</span>
               </div>
-              <Link href="/dashboard/cursos" className="text-xs hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>Ver todos →</Link>
+              <Link href="/dashboard/cursos" className="text-xs hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>Ver todos →</Link>
             </div>
             <div className="p-4 space-y-2">
               <Link href="/dashboard/cursos/nuevo" className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group">
@@ -286,7 +282,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Asistencias */}
-          <div className="rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-all" style={{ background: 'linear-gradient(160deg, white 70%, rgba(var(--color-acento-rgb, 147,197,253), 0.08) 100%)', boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04)' }}>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-all" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04)' }}>
             <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#fffbeb' }}>
@@ -297,7 +293,7 @@ export default async function DashboardPage() {
                 </div>
                 <span className="text-sm font-semibold text-slate-700">Asistencias</span>
               </div>
-              <Link href="/dashboard/asistencias" className="text-xs hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>Ver todos →</Link>
+              <Link href="/dashboard/asistencias" className="text-xs hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>Ver todos →</Link>
             </div>
             <div className="p-4 space-y-2">
               <Link href="/dashboard/asistencias/nuevo" className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group">

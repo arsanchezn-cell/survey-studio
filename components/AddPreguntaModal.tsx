@@ -227,7 +227,7 @@ export default function AddPreguntaModal({ surveyId, position, onClose, onSaved,
                       <button onClick={() => eliminarOpcion(i)} className="text-gray-300 hover:text-red-400 text-lg leading-none">x</button>
                     </div>
                   ))}
-                  <button onClick={agregarOpcion} className="text-sm hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar opcion</button>
+                  <button onClick={agregarOpcion} className="text-sm hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar opcion</button>
                 </div>
                 <p className="text-xs text-gray-400 mt-2">El score se usa para el diagnostico con IA.</p>
               </div>
@@ -245,7 +245,7 @@ export default function AddPreguntaModal({ surveyId, position, onClose, onSaved,
                         <button onClick={() => setFilasMatriz(filasMatriz.filter((_, j) => j !== i))} className="text-gray-300 hover:text-red-400 text-lg leading-none">x</button>
                       </div>
                     ))}
-                    <button onClick={() => setFilasMatriz([...filasMatriz, `Aspecto ${filasMatriz.length + 1}`])} className="text-sm hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar fila</button>
+                    <button onClick={() => setFilasMatriz([...filasMatriz, `Aspecto ${filasMatriz.length + 1}`])} className="text-sm hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar fila</button>
                   </div>
                 </div>
                 <div>
@@ -258,7 +258,7 @@ export default function AddPreguntaModal({ surveyId, position, onClose, onSaved,
                         <button onClick={() => setColumnasMatriz(columnasMatriz.filter((_, j) => j !== i))} className="text-gray-300 hover:text-red-400 text-lg leading-none">x</button>
                       </div>
                     ))}
-                    <button onClick={() => setColumnasMatriz([...columnasMatriz, `Opcion ${columnasMatriz.length + 1}`])} className="text-sm hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar columna</button>
+                    <button onClick={() => setColumnasMatriz([...columnasMatriz, `Opcion ${columnasMatriz.length + 1}`])} className="text-sm hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>+ Agregar columna</button>
                   </div>
                 </div>
               </div>

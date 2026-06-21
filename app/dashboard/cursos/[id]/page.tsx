@@ -519,7 +519,7 @@ export default function CursoDetallePage({
                   )}
                   <button
                     onClick={() => setMostrarVincular(!mostrarVincular)}
-                    className="text-xs hover:opacity-80" className="font-medium transition-colors" style={{ color: 'var(--color-secundario)' }}
+                    className="text-xs hover:opacity-80 font-medium transition-colors" style={{ color: 'var(--color-secundario)' }}
                   >
                     + Vincular evento
                   </button>
@@ -594,7 +594,7 @@ export default function CursoDetallePage({
                             >
                               {esActivo ? 'Ocultar reporte' : '📊 Ver reporte'}
                             </button>
-                            <Link href={`/dashboard/asistencias/${ev.id}`} className="text-xs hover:opacity-80" className="font-medium" style={{ color: 'var(--color-secundario)' }}>
+                            <Link href={`/dashboard/asistencias/${ev.id}`} className="text-xs hover:opacity-80 font-medium" style={{ color: 'var(--color-secundario)' }}>
                               Ver evento →
                             </Link>
                             <button onClick={() => desvincularEvento(ev.id)} className="text-xs text-gray-400 hover:text-red-400 transition-colors">
