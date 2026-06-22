@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server'
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
-  const next = requestUrl.searchParams.get('next') || '/dashboard'
+  const type = requestUrl.searchParams.get('type')
 
   if (code) {
     const cookieStore = await cookies()
@@ -25,16 +25,12 @@ export async function GET(request: NextRequest) {
       }
     )
 
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    await supabase.auth.exchangeCodeForSession(code)
 
-    if (!error && data?.session) {
-      // Si es un recovery (reset de password), redirigir a la pagina de reset
-      const isRecovery = requestUrl.searchParams.get('type') === 'recovery'
-      if (isRecovery) {
-        return NextResponse.redirect(new URL('/auth/reset-password', request.url))
-      }
+    if (type === 'recovery') {
+      return NextResponse.redirect(new URL('/auth/reset-password', request.url))
     }
   }
 
-  return NextResponse.redirect(new URL(next, request.url))
+  return NextResponse.redirect(new URL('/dashboard', request.url))
 }
