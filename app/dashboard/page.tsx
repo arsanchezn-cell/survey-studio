@@ -208,7 +208,7 @@ export default async function DashboardPage() {
 
       {esNuevo ? (
         /* ── PANTALLA ONBOARDING ── */
-        <div className="px-8 py-10 max-w-4xl">
+        <div className="px-4 md:px-8 py-10 max-w-4xl">
           {/* Saludo */}
           <div className="mb-10">
             <div className="flex items-center gap-3 mb-2">
@@ -223,7 +223,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Pasos */}
-          <div className="grid grid-cols-3 gap-5 mb-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mb-10">
             {pasos.map((paso) => (
               <div key={paso.num} className="bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-lg transition-all group" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center gap-3 mb-4">
@@ -270,13 +270,13 @@ export default async function DashboardPage() {
       ) : (
         /* ── DASHBOARD CON DATOS ── */
         <>
-          <div className="px-8 pt-8 pb-6">
+          <div className="px-4 md:px-8 pt-8 pb-6">
             <h1 className="text-2xl font-semibold text-slate-800">{saludo}, {primerNombre} &#128075;</h1>
             <p className="text-slate-500 text-sm mt-1">Aqui tienes un resumen de tu actividad</p>
           </div>
 
           {/* Metricas */}
-          <div className="px-8 grid grid-cols-3 gap-4 mb-8">
+          <div className="px-4 md:px-8 grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
             {metricas.map((m, idx) => (
               <Link
                 key={m.label}
@@ -296,9 +296,9 @@ export default async function DashboardPage() {
           </div>
 
           {/* Accesos rapidos */}
-          <div className="px-8 mb-8">
+          <div className="px-4 md:px-8 mb-8">
             <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Accesos rapidos</h2>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
 
               {/* Encuestas */}
               <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-all" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
