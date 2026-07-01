@@ -28,12 +28,17 @@ export default async function EncuestasPage() {
     .eq('id', user.id)
     .single()
 
-  // Filtrar encuestas por tenant_id
-  const { data: encuestas } = await supabase
-    .from('surveys')
-    .select('*')
-    .eq('tenant_id', userData?.tenant_id)
-    .order('created_at', { ascending: false })
+  // Control estricto SaaS: Si no hay tenant_id válido, forzar lista vacía sin consultar datos globales
+  let encuestas = []
+  if (userData?.tenant_id) {
+    const { data } = await supabase
+      .from('surveys')
+      .select('*')
+      .eq('tenant_id', userData.tenant_id)
+      .order('created_at', { ascending: false })
+    
+    if (data) encuestas = data
+  }
 
   const statusColor: Record<string, string> = {
     draft: 'bg-gray-100 text-gray-600',
@@ -89,14 +94,14 @@ export default async function EncuestasPage() {
                 <div>
                   <div className="flex items-center gap-3 mb-1">
                     <h3 className="font-medium text-gray-900">{encuesta.title}</h3>
-                    <span className={	ext-xs px-2 py-1 rounded-full font-medium }>{statusLabel[encuesta.status]}</span>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusColor[encuesta.status]}`}>{statusLabel[encuesta.status]}</span>
                     {encuesta.is_diagnostic && (<span className="text-xs px-2 py-1 rounded-full font-medium bg-purple-100 text-purple-700">Diagnostico IA</span>)}
                   </div>
                   <p className="text-sm text-gray-500">Creada {new Date(encuesta.created_at).toLocaleDateString('es-ES')}</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Link href={/dashboard/encuestas/} className="text-sm font-medium hover:opacity-80 transition-colors" style={{ color: 'var(--color-secundario)' }}>Editar</Link>
-                  <Link href={/dashboard/encuestas//resultados} className="text-sm text-gray-500 hover:text-gray-700 font-medium">Resultados</Link>
+                  <Link href={`/dashboard/encuestas/${encuesta.id}`} className="text-sm font-medium hover:opacity-80 transition-colors" style={{ color: 'var(--color-secundario)' }}>Editar</Link>
+                  <Link href={`/dashboard/encuestas/${encuesta.id}/resultados`} className="text-sm text-gray-500 hover:text-gray-700 font-medium">Resultados</Link>
                 </div>
               </div>
             ))}
